@@ -17,6 +17,7 @@
 #include <QFile>
 #include <QIODevice>
 #include <QMap>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -451,7 +452,38 @@ void MainWindow::setupStart() {
         );
     }
 
-    // Show everything
+    // Image setup
+    auto* imageLabel = new QLabel(backgroundWidget);
+    QPixmap originalPixmap("./slots.png");  // Assuming image is in resources
+
+    if (originalPixmap.isNull()) {
+        qDebug() << "Failed to load image: slots.png";
+    } else {
+        // Calculate desired image size (e.g., 200x200 pixels)
+        const int imageWidth = 200;
+        const int imageHeight = 200;
+    
+        // Scale the pixmap while keeping aspect ratio
+        QPixmap scaledPixmap = originalPixmap.scaled(
+            imageWidth,
+            imageHeight,
+            Qt::KeepAspectRatio,
+            Qt::SmoothTransformation
+        );
+    
+        imageLabel->setPixmap(scaledPixmap);
+    
+        // Calculate position to center the image
+        int xPos = (m_screenGeometry.width() - scaledPixmap.width()) / 2;
+    int yPos = (m_screenGeometry.height() - scaledPixmap.height()) / 2 - 50; // Adjust -50 as needed
+    
+        imageLabel->move(xPos, yPos);
+        imageLabel->resize(scaledPixmap.size());
+        imageLabel->show();
+    }
+
+
+     // Show everything
     backgroundWidget->show();
     frameWidget->show();
     titleLabel->show();
