@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPropertyAnimation>
-#include <memory>
 #include <vector>
 #include <string>
 #include <QPushButton>
