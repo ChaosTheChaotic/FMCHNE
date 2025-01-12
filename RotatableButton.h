@@ -2,7 +2,6 @@
 #define ROTATABLEBUTTON_H
 
 #include <QPushButton>
-#include <QPropertyAnimation>
 
 class RotatableButton : public QPushButton
 {
