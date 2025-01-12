@@ -12,10 +12,8 @@
 #include <QRect>
 #include <QPropertyAnimation>
 #include <QTimer>
-#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonValue>
 #include <QFile>
 #include <QIODevice>
 #include <QMap>
@@ -126,7 +124,7 @@ std::vector<std::string> MainWindow::generateRandomSymbol() const {
     std::uniform_int_distribution<> dis(0, m_symbols.size() - 1);
     
     std::vector<std::string> rolled;
-    rolled.reserve(3); // Pre-allocate space for 3 elements
+    rolled.reserve(3);
     
     // Generate 3 random symbols
     for (int i = 0; i < 3; ++i) {
@@ -148,7 +146,7 @@ void MainWindow::updateMoneyLabel() {
             .arg(pence, 2, 10, QChar('0')));
 
         if (m_money < m_cost) {
-            removeSaveState();  // Only remove current game state
+            removeSaveState();
             clearScreen(3);
         }
     }
@@ -160,7 +158,7 @@ bool MainWindow::hasSaveFile() const {
         if (file.open(QIODevice::ReadOnly)) {
             QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
             QJsonObject obj = doc.object();
-            bool hasContent = obj.contains("Current");  // Only check for current game state
+            bool hasContent = obj.contains("Current");
             file.close();
             return hasContent;
         }
@@ -231,9 +229,8 @@ void MainWindow::setupButton(QPushButton* button, const QString& styleSheet) {
 
 void MainWindow::onButtonPressed() {
     if (auto* button = qobject_cast<QPushButton*>(sender())) {
-        QPoint fixedPosition = button->pos(); // Store the current position
-        
-        // Create scale animation
+        QPoint fixedPosition = button->pos();
+
         auto* scaleAnim = new QPropertyAnimation(button, "size", this);
         scaleAnim->setDuration(100);
         
@@ -267,9 +264,8 @@ void MainWindow::onButtonPressed() {
 
 void MainWindow::onButtonReleased() {
     if (auto* button = qobject_cast<QPushButton*>(sender())) {
-        QPoint fixedPosition = button->pos(); // Store the current position
-        
-        // Create scale animation
+        QPoint fixedPosition = button->pos();
+
         auto* scaleAnim = new QPropertyAnimation(button, "size", this);
         scaleAnim->setDuration(100);
         
@@ -294,7 +290,7 @@ void MainWindow::onButtonReleased() {
 void MainWindow::onClaimButtonClicked() {
     if (m_money > 0) {
         m_maxMoney = std::max(m_maxMoney, m_money);
-        // Only remove current game state, keep overall stats
+
         removeSaveState();
         clearScreen(3);
     }
@@ -497,9 +493,8 @@ void MainWindow::gameScreen() {
 
     //Money setup
     m_moneyLabel = new QLabel(backgroundWidget);
-    updateMoneyLabel(); // New function to update the text
-
-    QFont moneyLabelFont("Arial", 32); // Specific font and size
+    updateMoneyLabel();
+    QFont moneyLabelFont("Arial", 32);
     moneyLabelFont.setBold(true);
 
     m_moneyLabel->setFont(moneyLabelFont);
@@ -517,7 +512,7 @@ void MainWindow::gameScreen() {
 
     // Calculate the label's width based on content
     QFontMetrics fm(moneyLabelFont);
-    int textWidth = fm.horizontalAdvance(m_moneyLabel->text()) + 100; // Add padding
+    int textWidth = fm.horizontalAdvance(m_moneyLabel->text()) + 100;
     m_moneyLabel->setFixedWidth(textWidth);
 
     // Center the label
@@ -567,8 +562,8 @@ void MainWindow::gameScreen() {
     setupButton(m_spinButton, getDefaultButtonStyle());
     m_spinButton->move(
         (m_screenGeometry.width() - BUTTON_WIDTH) / 2,
-        500  // Moved up from 570
-    );
+        500
+	);
 
     // Claim button setup
     m_claimButton = new RotatableButton("Claim Winnings", backgroundWidget);
@@ -599,7 +594,7 @@ void MainWindow::gameScreen() {
 screenIds:
 0 - menu
 1 - gameScreen
-2 - bludGambledTooMuchAhhScreen
+2 - endScreen
 */
 
 void MainWindow::clearScreen(int screenId) {
@@ -616,8 +611,10 @@ void MainWindow::clearScreen(int screenId) {
         }
     }
 
-    // Use a single-shot timer to ensure all widgets are properly cleaned up
-    // before creating new ones
+    /*
+     Use a single-shot timer to ensure all widgets are properly cleaned up
+     before creating new ones
+    */
     QTimer::singleShot(0, this, [this, nextScreen]() {
         if (nextScreen == 0) {
             qInfo() << "Start screen!";
@@ -757,7 +754,7 @@ void MainWindow::endScreen() {
         (m_screenGeometry.width() - BUTTON_WIDTH) / 2,
         m_screenGeometry.height() / 2 + 100
     );
-    restartButton->raise(); // Ensure button is on top
+    restartButton->raise();
 
     // Connect button signals
     connect(restartButton, &QPushButton::pressed, this, &MainWindow::onButtonPressed);
