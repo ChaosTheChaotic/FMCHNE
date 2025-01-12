@@ -1,8 +1,11 @@
 # FMCHNE
 A slot machine game written in C++ for the Qt framework
 
+# Prerequisites
+QT - You must have QT installed on your computer. Google an installation tutorial if you do not know how.
+
 # Installation
-Check relases and download the executable (No .exe file just yet) and run it. (Will generate a game_save.json file)
+Check relases and download the executable and the .png image (for the logo, so make sure they are both in the same folder) (No .exe file just yet) and run the executable. (Will generate a game_save.json file in the folder)
 
 # Build instructions
 ```bash
