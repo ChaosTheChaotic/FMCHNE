@@ -1,8 +1,6 @@
 #include "RotatableButton.h"
 #include <QPainter>
 #include <QPaintEvent>
-#include <QtMath>
-#include <QStylePainter>
 #include <QStyleOptionButton>
 
 RotatableButton::RotatableButton(QWidget *parent)
