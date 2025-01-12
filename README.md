@@ -8,3 +8,5 @@ Check relases and download the executable (No .exe file just yet) and run it. (W
 ```bash
 cmake --build build/Desktop-Debug --target all
 ```
+# Credits
+Google gemini imagegen 3 for the logo because i cant do art.
