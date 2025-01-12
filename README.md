@@ -9,6 +9,8 @@ Check relases and download the executable and the .png image (for the logo, so m
 
 # Build instructions
 ```bash
+git clone https://github.com/ChaosTheChaotic/FMCHNE.git
+cd FMCHNE
 cmake --build build/Desktop-Debug --target all
 ```
 # Credits
